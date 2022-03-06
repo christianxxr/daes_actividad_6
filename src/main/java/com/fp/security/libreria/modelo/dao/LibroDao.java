@@ -15,4 +15,8 @@ public interface LibroDao {
 	int eliminarLibro(long isbn);
 
 	int altaLibro(Libro libro);
+
+	List<Libro> buscarLibroPorTema(String tema);
+
+	List<Libro> buscarLibroPorPalabra(String tema);
 }

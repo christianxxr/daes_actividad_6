@@ -8,4 +8,8 @@ public interface TemaDao {
 
 	List<Tema> findAll();
 
+	int altaTema(Tema tema);
+
+	Tema verUno(int idTema);
+
 }

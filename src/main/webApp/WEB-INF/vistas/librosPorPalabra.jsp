@@ -8,35 +8,40 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
 </head>
 <body>
-
 	<jsp:include page="inicio.jsp"></jsp:include>
 
 	<div class="container">
-		<h1 class="text-primary">Pedido para ${usuario.username }</h1>
-		<table class="table table-striped table-sm">
-			<tr>
-				<th>Libro</th>
-			</tr>
-			<c:forEach var="ele" items="${lineasPedido }">
-				<tr>
-					<td>${ele.libro.titulo }</td>
-				</tr>
-			</c:forEach>
-		</table>
+		<h1 class="text-primary">Libros por palabra ${palabra }</h1>
 
-		<div class="alert alert-success" role="alert">Importe pedido:
-			${importePedido } euros</div>
-		<sec:authorize access="hasAnyAuthority('ROL_CLIENTE')">
-			<a href="/cliente/volver" class="btn btn-info btn-sm"> Volver a
-				novedades </a>
-		</sec:authorize>
+		<c:choose>
+			<c:when test="${librosPorPalabra.size() == 0 }">
+				<p style="color: red">No se han encontrado resultados</p>
+			</c:when>
+			<c:otherwise>
+				<table class="table table-striped table-sm">
+					<tr>
+						<th>Título</th>
+						<th>Autor</th>
+						<th>Opciones</th>
 
+					</tr>
+					<c:forEach var="ele" items="${librosPorPalabra }">
+						<tr>
+							<td>${ele.titulo }</td>
+							<td>${ele.autor }</td>
+							<td><a href="/cliente/verDetalle/${ele.isbn}"
+								class="btn btn-success btn-sm"> Ver detalle </a> <sec:authorize
+									access="hasAnyAuthority('ROL_CLIENTE')">
+									<a href="/cliente/addCarrito/${ele.isbn }"
+										class="btn btn-warning btn-sm"> Añadir al carrito </a>
+								</sec:authorize>
+						</tr>
+					</c:forEach>
+				</table>
+			</c:otherwise>
+		</c:choose>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -50,6 +55,5 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
-
 </body>
 </html>

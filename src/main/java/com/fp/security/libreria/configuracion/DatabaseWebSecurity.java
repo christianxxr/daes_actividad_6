@@ -34,10 +34,11 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers("/bootstrap/**", "/images/**", "/css/**", "js/**").permitAll()
 
 				// Las vistas pÃºblicas no requieren autenticaciÃ³n
-				.antMatchers("/", "/login", "/search", "/registro", "/app/producto/verUno/**").permitAll()
+				.antMatchers("/", "/login").permitAll()
 
 				// Asignar permisos a URLs por ROLES
-				.antMatchers("/app/producto/**").hasAnyAuthority("ROL_ADMON")
+				.antMatchers(
+						"/app/producto/**").hasAnyAuthority("ROL_ADMON")
 				.antMatchers("/app/usuarios/**").hasAnyAuthority("ROL_ADMON")
 				.antMatchers("/app/perfiles/**").hasAnyAuthority("ROL_ADMON").antMatchers("/app/tipos/**")
 				.hasAnyAuthority("ROL_ADMON")

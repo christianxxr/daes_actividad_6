@@ -1,5 +1,7 @@
 package com.fp.security.libreria.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fp.security.libreria.model.entityBeans.Libro;
+import com.fp.security.libreria.model.entityBeans.Tema;
 import com.fp.security.libreria.modelo.dao.LibroDao;
 import com.fp.security.libreria.modelo.dao.PerfilesDao;
 import com.fp.security.libreria.modelo.dao.TemaDao;
@@ -26,6 +30,12 @@ public class ControllerAdmon {
 	UsuarioDao udao;
 	@Autowired
 	PerfilesDao pdao;
+
+	@GetMapping("/verDetalle/{isbn}")
+	public String procDetalle(Model model, @PathVariable("isbn") long isbn) {
+		model.addAttribute("listaLibros", ldao.verUno(isbn));
+		return "verUnLibro";
+	}
 
 	@GetMapping("/editar/{isbn}")
 	public String procEditarLibro(Model model, @PathVariable("isbn") long isbn) {
@@ -80,6 +90,33 @@ public class ControllerAdmon {
 	public String procVerUsuarios(Model model) {
 		model.addAttribute("listaUsuarios", udao.findAll());
 		return "listadoUsuarios";
+	}
+
+	@GetMapping("/altaTema")
+	public String enviarFormularioTema() {
+		return "formTema";
+	}
+
+	@PostMapping("/altaTema")
+	public String procAltaLibro(Model model, Tema tema) {
+		tdao.altaTema(tema);
+		return "redirect:/";
+	}
+
+	@GetMapping("/busquedaPorTema")
+	public String buscarPorTema(@RequestParam("nombreTema") String nombreTema, Model model) {
+		List<Libro> librosPorTema = ldao.buscarLibroPorTema(nombreTema != null ? nombreTema.toLowerCase() : null);
+		model.addAttribute("librosPorTema", librosPorTema);
+		model.addAttribute("nombreTema", nombreTema);
+		return "librosPorTema";
+	}
+
+	@GetMapping("/busquedaPorPalabra")
+	public String buscarPorPalabra(@RequestParam("palabra") String palabra, Model model) {
+		List<Libro> librosPorPalabra = ldao.buscarLibroPorPalabra(palabra != null ? palabra.toLowerCase() : null);
+		model.addAttribute("librosPorPalabra", librosPorPalabra);
+		model.addAttribute("palabra", palabra);
+		return "librosPorPalabra";
 	}
 
 }

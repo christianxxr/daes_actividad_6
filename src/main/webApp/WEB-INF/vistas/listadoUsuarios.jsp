@@ -2,8 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,19 +16,18 @@
 		<table class="table table-striped table-sm">
 			<tr>
 				<th>Username</th>
-				<th>Password</th>
 				<th>Enabled</th>
 				<th>Email</th>
 				<th>Nombre</th>
 				<th>Apellido</th>
 				<th>Direccion</th>
 				<th>Fecha alta</th>
+
 			</tr>
 			<c:forEach var="ele" items="${listaUsuarios }">
 				<tr>
 					<td>${ele.username }</td>
-					<td>${ele.password }</td>
-					<td>${ele.enabled }</td>
+					<td>${ele.enabled == 1 ? "Sí" : "No" }</td>
 					<td>${ele.email }</td>
 					<td>${ele.nombre }</td>
 					<td>${ele.apellido }

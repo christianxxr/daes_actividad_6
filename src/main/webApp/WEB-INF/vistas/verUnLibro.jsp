@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +28,9 @@
 				<th>Novedad</th>
 				<th>Tema</th>
 				<th>Portada</th>
+				<th><sec:authorize access="hasAnyAuthority('ROL_CLIENTE')">
+						Opciones
+					</sec:authorize></th>
 			</tr>
 			<tr>
 				<td>${listaLibros.isbn}</td>
@@ -35,10 +40,16 @@
 				<td>${listaLibros.paginas}</td>
 				<td>${listaLibros.novedad}</td>
 				<td>${listaLibros.tema.descTema }</td>
-				<td>${listaLibros.imagen }</td>
+				<td><img src ="/harryPotter.png" width="200px"></td>
+				<td><sec:authorize access="hasAnyAuthority('ROL_CLIENTE')">
+						<a href="/cliente/addCarrito/${listaLibros.isbn }"
+							class="btn btn-warning btn-sm">Añadir al carrito</a>
+					</sec:authorize></td>
 			</tr>
 		</table>
 	</div>
+
+
 
 	<a href="/">Volver al inicio</a>
 

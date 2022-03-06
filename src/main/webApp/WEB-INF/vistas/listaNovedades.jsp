@@ -20,8 +20,11 @@
 	<div class="container">
 		<h1 class="text-primary">Lista de novedades</h1>
 		<sec:authorize access="hasAnyAuthority('ROL_ADMON')">
-			<a href="/admon/alta" class="btn btn-primary btn-sm">Nuevo
-				Libro</a>
+			<a href="/admon/alta" class="btn btn-primary btn-sm">Nuevo Libro</a>
+		</sec:authorize>
+		<sec:authorize access="hasAnyAuthority('ROL_ADMON')">
+			<a href="/admon/altaTema" class="btn btn-primary btn-sm">Nuevo
+				Tema</a>
 		</sec:authorize>
 		<table class="table table-striped table-sm">
 			<tr>
@@ -35,9 +38,13 @@
 					<td>${ele.titulo }</td>
 					<td>${ele.autor }</td>
 					<td>${ele.precioUnitario }</td>
-					<td><a href="/cliente/verDetalle/${ele.isbn}"
-						class="btn btn-success btn-sm">Ver detalle</a> <sec:authorize
-							access="hasAnyAuthority('ROL_ADMON')">
+					<td><sec:authorize access="hasAuthority('ROL_ADMON')">
+							<a href="/admon/verDetalle/${ele.isbn}"
+								class="btn btn-success btn-sm">Ver detalle</a>
+						</sec:authorize> <sec:authorize access="hasAuthority('ROL_CLIENTE')">
+							<a href="/cliente/verDetalle/${ele.isbn}"
+								class="btn btn-success btn-sm">Ver detalle</a>
+						</sec:authorize> <sec:authorize access="hasAnyAuthority('ROL_ADMON')">
 							<a href="/admon/editar/${ele.isbn}"
 								class="btn btn-success btn-sm">Editar</a>
 							<a href="/admon/eliminar/${ele.isbn}"
